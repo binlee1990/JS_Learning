@@ -36,6 +36,7 @@ $(document).ready(function() {
 	var colums = 10;
 	var divButtonList = new Array(rows*colums);
 	var colorsList = ["red", "blue", "yellow", "green"];
+	var canRemove = false;
 	
 	var initDivButtons = function(){
 		for(var i=0; i<rows; i++){
@@ -64,21 +65,28 @@ $(document).ready(function() {
 	
 	var doRemove = function(btn1, btn2){
 		swap(btn1, btn2);
-		var canRemove = removeButtons();
+		canRemove = removeButtons();
+		if(canRemove===false){
+			swap(btn1, btn2);
+		}
 	}
 	
 	var removeButtons = function(){
-	
+		return false;
 	}
 	
 	var swap = function(btn1, btn2){
 		var btnColor1 = btn1.getColor();
 		var btnColor2 = btn2.getColor();
+		$(btn1.getClass()).fadeOut("slow");
 		divButtonList[btn1.row*10+btn1.colum].setColor(btnColor2);
 		$(btn1.getClass()).css("background", btnColor2);
+		$(btn1.getClass()).fadeIn("slow");
 		
+		$(btn2.getClass()).fadeOut("slow");
 		divButtonList[btn2.row*10+btn2.colum].setColor(btnColor1);
 		$(btn2.getClass()).css("background", btnColor1);
+		$(btn2.getClass()).fadeIn("slow");
 	}
 	
 	initDivButtons();
